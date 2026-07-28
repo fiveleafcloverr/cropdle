@@ -1,0 +1,95 @@
+
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: grey;
+
+    font-family: Arial;
+
+    line-height: 1.2;
+    
+}
+
+
+#content {
+    width: 384px;
+    margin: auto;
+    margin-top: 128px;
+}
+
+input {
+    margin: auto;
+    background-color: rgba(255, 255, 255, 0.3);
+    font-size: 20px;
+    color: rgba(255, 255, 255, 0.7);
+    padding: 16px;
+    border-style: none;
+    border-radius: 16px;
+    box-shadow: 0px 0px 12px rgba(255, 255, 255, 0.3);
+}
+
+input[type=text] {
+    width: 232px;
+}
+
+input[type=submit] {
+    width: 104px;
+    float: right;
+}
+
+input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+
+#guesses {
+    margin-top: 0px;
+    display: flex;
+    flex-direction: column-reverse;
+    margin-bottom: 128px;
+}
+
+.container {
+    margin-top: 24px;
+}
+
+.crop {
+
+    width: calc(100%);
+    
+    /*margin: auto;*/
+    margin-top: -4px;
+    background-color: rgba(255, 255, 255, 0.3);
+    font-size: 20px;
+    color: rgba(255, 255, 255, 0.7);
+    /*padding: 0px 16px;*/
+    border-style: none;
+    border-radius: 16px;
+    box-shadow: 0px 0px 12px rgba(255, 255, 255, 0.3);
+    text-align: center;
+    
+}
+
+.crop img, p {
+
+    width: calc(100% - 32px);
+    padding: 16px;
+    font-size: 16px;
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
