@@ -12,13 +12,13 @@ body {
 }
 
 
-#content {
+#content, #intro {
     width: 384px;
     margin: auto;
-    margin-top: 128px;
+    margin-top: 96px;
 }
 
-input {
+input, button, #intro {
     margin: auto;
     background-color: rgba(255, 255, 255, 0.3);
     font-size: 20px;
@@ -27,6 +27,31 @@ input {
     border-style: none;
     border-radius: 16px;
     box-shadow: 0px 0px 12px rgba(255, 255, 255, 0.3);
+}
+
+#intro {
+    margin-left: 48px;
+    width: 26%;
+    padding: 12px;
+}
+
+#intro h1 {
+    font-size: 28px;
+    margin-left: 14px;
+    margin-bottom: -12px;
+}
+
+#intro p {
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.yellow {
+    background-color: rgba(247, 222, 59, 0.5);
+    padding: 8px;
+    border-style: none;
+    border-radius: 8px;
+    box-shadow: 0px 0px 12px rgba(247, 222, 59, 0.5);
 }
 
 input[type=text] {
@@ -40,6 +65,22 @@ input[type=submit] {
 
 input::placeholder {
     color: rgba(255, 255, 255, 0.7);
+}
+
+
+button {
+    width: 31%;
+    margin-bottom: 56px;
+}
+
+#random {
+    float: left;
+}
+#daily {
+    margin-left: 3.5%;
+}
+#giveup {
+    float: right;
 }
 
 
