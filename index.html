@@ -6,7 +6,25 @@
     <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
+    <div id = "intro" style = "float: left;">
+        <h1>how it works</h1>
+        <button style = "float: right; margin-top: -40px; width: 20%;" onclick = "let el = document.getElementById('intro'); el.parentElement.removeChild(el); input.focus();">X</button>
+        <p>
+            you have unlimited guesses to guess a random crop from hit game stardew valley <br> <br>
+            every day a new random daily crop is set <br> <br>
+            hit random or type "r" for a random crop <br>
+            hit daily or type "d" for the daily crop <br>
+            hit give up or type "g" to reveal the crop <br> <br>
+            <strong>sell price</strong> - yellow when within $30 <br> <br>
+            <strong>grow time</strong> - yellow when within 2 days <br> <br>
+            <strong>seasons</strong> - yellow when mystery crop grows in at least one guessed season <br> <br>
+            <strong>sources</strong> - yellow when mystery crop comes from at least one guessed source
+        </p>
+    </div>
     <div id = "content">
+        <button id = "random" onclick = "randomCrop();">random</button>
+        <button id = "daily" onclick = "dailyCrop();">daily</button>
+        <button id = "giveup" onclick = "giveup();">give up</button>
         <form id = "form" action = "JavaScript:guess()">
             <input id = "input" type = "text" id = "guess" name = "guess" placeholder = "enter a crop..." autofocus>
             <input type = "submit" value = "guess">
