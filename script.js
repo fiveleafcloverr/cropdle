@@ -39,6 +39,32 @@ function getObjectName(list, name) {
 }
 
 
+function resetGuesses() {
+    let g = document.getElementById("guesses");
+    g.replaceChildren();
+}
+
+function randomCrop() {
+    resetGuesses();
+    targetCrop = getObject(CROPS, Math.round(Math.random() * Object.entries(CROPS).length));
+    input.focus();
+}
+
+function dailyCrop() {
+    let date = new Date();
+    let seed = date.getUTCFullYear() * 100 + date.getUTCMonth() * 100 + date.getUTCDate();
+    let rand = seed * 16807 % 2147483647;
+    resetGuesses();
+    targetCrop = getObject(CROPS, rand % Object.entries(CROPS).length);
+    input.focus();
+}
+
+function giveup() {
+    appendCrop(targetCrop, true, true);
+    input.focus();
+}
+
+
 class Crop {
 
     constructor(name, index, seasons, sell, time, regrow, from, atlasx = 0, atlasy = 0) {
@@ -147,25 +173,54 @@ const CROPS = {          // name              i   seasons
     FAIRYROSE:     new Crop("Fairy Rose",     34, [ SEASONS.AUTUMN ], 
                             290, 12, false, [ SOURCES.PIERRE, SOURCES.JOJA ], 19, 24),
     GRAPES:        new Crop("Grapes",         35, [ SEASONS.AUTUMN ], 
-                            80,  10,  true,  [ SOURCES.PIERRE, SOURCES.JOJA ], 14, 16),
+                            80,  10, true,  [ SOURCES.PIERRE, SOURCES.JOJA ], 14, 16),
     PUMPKIN:       new Crop("Pumpkin",        36, [ SEASONS.AUTUMN ], 
-                            320, 13,  false, [ SOURCES.PIERRE, SOURCES.JOJA ], 12, 11),
+                            320, 13, false, [ SOURCES.PIERRE, SOURCES.JOJA ], 12, 11),
     YAM:           new Crop("Yam",            37, [ SEASONS.AUTUMN ], 
-                            160, 10,  false, [ SOURCES.PIERRE, SOURCES.JOJA ], 16, 11),
+                            160, 10, false, [ SOURCES.PIERRE, SOURCES.JOJA ], 16, 11),
     POWDERMELON:   new Crop("Powdermelon",    38, [ SEASONS.WINTER ], 
-                            60,  7,   false, [ SOURCES.FORAGE ], 27, 10),
-    //ANCIENTFRUIT:  new Crop("Ancient Fruit",  39, [ SEASONS.SPRING, SEASONS.SUMMER, SEASONS.AUTUMN ], 
-    //                        550, 7,  true,  [ SOURCES.PIERRE, SOURCES.JOJA ]),
+                            60,  7,  false, [ SOURCES.FORAGE ], 27, 10),
+    ANCIENTFRUIT:  new Crop("Ancient Fruit",  39, [ SEASONS.SPRING, SEASONS.SUMMER, SEASONS.AUTUMN ], 
+                            550, 28, true,  [ SOURCES.FORAGE ], 22, 18),
+    PINEAPPLE:     new Crop("Pineapple",      40, [ SEASONS.SUMMER ], 
+                            300, 14, true,  [ SOURCES.FORAGE ], 16, 34),
+    QIFRUIT:       new Crop("Qi Fruit",       41, [ SEASONS.SPRING, SEASONS.SUMMER, SEASONS.AUTUMN, SEASONS.WINTER ], 
+                            1  , 4,  true,  [ SOURCES.FORAGE ], 1, 37),
+    SWEETGEMBERRY: new Crop("Sweet Gem Berry",42, [ SEASONS.AUTUMN ], 
+                            3000,24, false, [ SOURCES.CART ], 9, 17),
+    CACTUSFRUIT:   new Crop("Cactus Fruit",   43, [  ], 
+                            75,  12, false, [ SOURCES.PIERRE, SOURCES.JOJA ], 18, 3),
+    APPLE:         new Crop("Apple",          44, [ SEASONS.AUTUMN ], 
+                            100, 28, true,  [ SOURCES.PIERRE ], 13, 25),
+    APRICOT:       new Crop("Apricot",        45, [ SEASONS.SPRING ], 
+                            50,  28, true,  [ SOURCES.PIERRE ], 10, 26),
+    CHERRY:        new Crop("Cherry",         46, [ SEASONS.SPRING ], 
+                            80,  28, true,  [ SOURCES.PIERRE ], 14, 26),
+    ORANGE:        new Crop("Orange",         47, [ SEASONS.SUMMER ], 
+                            100, 28, true,  [ SOURCES.PIERRE ], 11, 26),
+    PEACH:         new Crop("Peach",          48, [ SEASONS.SUMMER ], 
+                            140, 28, true,  [ SOURCES.PIERRE ], 12, 26),
+    POMEGRANATE:   new Crop("Pomegranate",    49, [ SEASONS.AUTUMN ], 
+                            140, 28, true,  [ SOURCES.PIERRE ], 13, 26),
+    CHERRY:        new Crop("Cherry",         50, [ SEASONS.SPRING ], 
+                            80,  28, true,  [ SOURCES.PIERRE ], 14, 26),
+    MANGO:         new Crop("Mango",          51, [ SEASONS.SUMMER ], 
+                            130, 28, true,  [ SOURCES.FORAGE ], 18, 34),
+    BANANA:        new Crop("Banana",         52, [ SEASONS.SUMMER ], 
+                            150, 28, true,  [ SOURCES.FORAGE ], 19, 3),
+    TEALEAVES:     new Crop("Tea Leaves",     53, [ SEASONS.SPRING, SEASONS.SUMMER, SEASONS.AUTUMN ], 
+                            50,  20, true,  [ SOURCES.FORAGE ], 23, 33),
     
 }
 
 
-let targetCrop = getObject(CROPS, Math.round(Math.random() * Object.entries(CROPS).length));
+let targetCrop;
+dailyCrop();
 
 
 function getSellColour(crop) {
     if (crop.sell == targetCrop.sell) { return cgreen; }
-    if (Math.abs(crop.sell - targetCrop.sell) <= 20) { return cyellow; }
+    if (Math.abs(crop.sell - targetCrop.sell) <= 30) { return cyellow; }
     return cgrey;
 }
 
@@ -218,16 +273,20 @@ function getSourceColour(crop) {
 }
     
 
-function addBox(element, colour = cgrey) {
+function addBox(element, colour = cgrey, lose = false) {
     let div = document.createElement("div");
     div.className = "crop";
-    div.style.backgroundColor = colour;
-    div.style.boxShadow = "0px 0px 12px " + colour;
+    let col = colour;
+    /*if (lose) {
+        col = "rgba(255, 0, 0, 0.6)";
+    }*/
+    div.style.backgroundColor = col;
+    div.style.boxShadow = "0px 0px 12px " + col;
     div.appendChild(element);
-    return div
+    return div;
 }
 
-function appendCrop(crop, win = false) {
+function appendCrop(crop, win = false, lose = false) {
 
     let div = document.createElement("div");
     div.className = "container";
@@ -292,6 +351,10 @@ function appendCrop(crop, win = false) {
         sd.appendChild(s);
         icons.appendChild(sd);
     }
+    if (crop.seasons.length == 0) {
+        seasons.innerHTML += "(none)";
+        
+    }
     icons.style.margin = "auto";
     seasons.style.margin = "0px";
     seasons.appendChild(icons);
@@ -325,33 +388,33 @@ function appendCrop(crop, win = false) {
     let space1 = 31;
     let space2 = 48;
     
-    div.appendChild(addBox(name, win ? cgreen : cgrey));
+    div.appendChild(addBox(name, win ? cgreen : cgrey, lose));
     //div.appendChild(addBox(img, win ? cgreen : cgrey));
     
-    let box = addBox(sell, getSellColour(crop));
+    let box = addBox(sell, getSellColour(crop), lose);
     box.style.width = space1 + "%";
     box.style.float = "left";
     box.style.marginTop = "0px";
     div.appendChild(box);
     
-    box = addBox(regrow, crop.regrow == targetCrop.regrow ? cgreen : cgrey);
+    box = addBox(regrow, crop.regrow == targetCrop.regrow ? cgreen : cgrey, lose);
     box.style.width = space1 + "%";
     box.style.float = "right";
     box.style.marginTop = "0px";
     div.appendChild(box);
     
-    box = addBox(time, getTimeColour(crop));
+    box = addBox(time, getTimeColour(crop), lose);
     box.style.width = space1 + "%";
     box.style.margin = "auto";
     div.appendChild(box);
 
-    box = addBox(seasons, getSeasonColour(crop));
+    box = addBox(seasons, getSeasonColour(crop), lose);
     box.style.width = space2 + "%";
     box.style.float = "left";
     box.style.margin = "auto";
     div.appendChild(box);
 
-    box = addBox(sources, getSourceColour(crop));
+    box = addBox(sources, getSourceColour(crop), lose);
     box.style.width = space2 + "%";
     box.style.float = "right";
     box.style.margin = "auto";
@@ -366,6 +429,9 @@ function guess() {
 
     let g = input.value;
     form.reset();
+    if (g == "r") { randomCrop(); return; }
+    if (g == "d") { dailyCrop(); return; }
+    if (g == "g") { giveup(); return; }
     let crop = getObjectName(CROPS, g);
 
     if (crop == undefined) {
