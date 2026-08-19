@@ -46,7 +46,11 @@ function resetGuesses() {
 
 function randomCrop() {
     resetGuesses();
-    targetCrop = getObject(CROPS, Math.round(Math.random() * Object.entries(CROPS).length));
+    let i = Math.round(Math.random() * Object.entries(CROPS).length);
+    while (i == Object.entries(CROPS).length) {
+        i = Math.round(Math.random() * Object.entries(CROPS).length);
+    }
+    targetCrop = getObject(CROPS, i);
     input.focus();
 }
 
@@ -55,7 +59,7 @@ function dailyCrop() {
     let seed = date.getUTCFullYear() * 100 + date.getUTCMonth() * 100 + date.getUTCDate();
     let rand = seed * 16807 % 2147483647;
     resetGuesses();
-    targetCrop = getObject(CROPS, rand % Object.entries(CROPS).length);
+    targetCrop = getObject(CROPS, rand == 0 ? 0 : (rand % Object.entries(CROPS).length));
     input.focus();
 }
 
