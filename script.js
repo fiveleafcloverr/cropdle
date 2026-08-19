@@ -46,9 +46,9 @@ function resetGuesses() {
 
 function randomCrop() {
     resetGuesses();
-    let i = Math.round(Math.random() * Object.entries(CROPS).length);
-    while (i == Object.entries(CROPS).length) {
-        i = Math.round(Math.random() * Object.entries(CROPS).length);
+    let i = Math.floor(Math.random() * Object.entries(CROPS).length);
+    while (i >= Object.entries(CROPS).length) {
+        i = Math.floor(Math.random() * Object.entries(CROPS).length);
     }
     targetCrop = getObject(CROPS, i);
     input.focus();
@@ -59,7 +59,7 @@ function dailyCrop() {
     let seed = date.getUTCFullYear() * 100 + date.getUTCMonth() * 100 + date.getUTCDate();
     let rand = seed * 16807 % 2147483647;
     resetGuesses();
-    targetCrop = getObject(CROPS, rand == 0 ? 0 : (rand % Object.entries(CROPS).length));
+    targetCrop = getObject(CROPS, rand % Object.entries(CROPS).length);
     input.focus();
 }
 
@@ -130,7 +130,7 @@ const CROPS = {          // name              i   seasons
                             120, 8,  true,  [ SOURCES.PIERRE ], 16, 16),
     TULIP:         new Crop("Tulip",          11, [ SEASONS.SPRING ], 
                             30,  6,  false, [ SOURCES.PIERRE, SOURCES.JOJA ], 15, 24),
-    RICE:          new Crop("Rice",  12, [ SEASONS.SPRING ], 
+    RICE:          new Crop("Rice",           12, [ SEASONS.SPRING ], 
                             30,  8,  false, [ SOURCES.PIERRE ], 7, 11),
     BLUEBERRY:     new Crop("Blueberry",      13, [ SEASONS.SUMMER ], 
                             50,  13, true,  [ SOURCES.PIERRE ], 18, 10),
@@ -206,13 +206,11 @@ const CROPS = {          // name              i   seasons
                             140, 28, true,  [ SOURCES.PIERRE ], 12, 26),
     POMEGRANATE:   new Crop("Pomegranate",    49, [ SEASONS.AUTUMN ], 
                             140, 28, true,  [ SOURCES.PIERRE ], 13, 26),
-    CHERRY:        new Crop("Cherry",         50, [ SEASONS.SPRING ], 
-                            80,  28, true,  [ SOURCES.PIERRE ], 14, 26),
-    MANGO:         new Crop("Mango",          51, [ SEASONS.SUMMER ], 
+    MANGO:         new Crop("Mango",          50, [ SEASONS.SUMMER ], 
                             130, 28, true,  [ SOURCES.FORAGE ], 18, 34),
-    BANANA:        new Crop("Banana",         52, [ SEASONS.SUMMER ], 
+    BANANA:        new Crop("Banana",         51, [ SEASONS.SUMMER ], 
                             150, 28, true,  [ SOURCES.FORAGE ], 19, 3),
-    TEALEAVES:     new Crop("Tea Leaves",     53, [ SEASONS.SPRING, SEASONS.SUMMER, SEASONS.AUTUMN ], 
+    TEALEAVES:     new Crop("Tea Leaves",     52, [ SEASONS.SPRING, SEASONS.SUMMER, SEASONS.AUTUMN ], 
                             50,  20, true,  [ SOURCES.FORAGE ], 23, 33),
     
 }
